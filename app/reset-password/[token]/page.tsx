@@ -4,6 +4,8 @@ import React, { useState, useTransition } from "react";
 import { useFormState } from "react-dom";
 import Link from "next/link";
 import { resetPasswordAction } from "../../actions/reset-password";
+import { evaluatePassword } from "../../../lib/password-strength";
+import PasswordStrengthBar from "../../../components/PasswordStrengthBar";
 import { ActionState } from "../../lib/definitions";
 
 export default function ResetPasswordPage({
@@ -22,33 +24,8 @@ export default function ResetPasswordPage({
 
   const analyzePassword = (val: string) => {
     setPassword(val);
-    if (!val) {
-      setStrength({ label: "None", class: "", score: 0 });
-      return;
-    }
-
-    let score = 0;
-    if (val.length >= 8) score += 1;
-
-    const hasLowercase = /[a-z]/.test(val);
-    const hasUppercase = /[A-Z]/.test(val);
-    const hasDigit = /[0-9]/.test(val);
-    const hasSpecial = /[^a-zA-Z0-9]/.test(val);
-
-    const categories = [hasLowercase, hasUppercase, hasDigit, hasSpecial].filter(
-      Boolean
-    ).length;
-
-    if (categories >= 2) score += 1;
-    if (categories === 4 && val.length >= 10) score += 1;
-
-    if (score <= 1) {
-      setStrength({ label: "Weak", class: "weak", score: 1 });
-    } else if (score === 2) {
-      setStrength({ label: "Fair", class: "fair", score: 2 });
-    } else {
-      setStrength({ label: "Strong", class: "strong", score: 3 });
-    }
+    const result = evaluatePassword(val);
+    setStrength(result);
   };
 
   const initialState: ActionState = {
@@ -145,30 +122,7 @@ export default function ResetPasswordPage({
                 />
 
                 {/* Password Strength Indicator */}
-                {password && (
-                  <div className="space-y-1.5 mb-2">
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-zinc-400">Strength:</span>
-                      <span
-                        className={`font-medium ${
-                          strength.score === 1
-                            ? "text-red-400"
-                            : strength.score === 2
-                            ? "text-amber-400"
-                            : "text-emerald-400"
-                        }`}
-                      >
-                        {strength.label}
-                      </span>
-                    </div>
-                    <div className="h-1 bg-zinc-800 rounded-full overflow-hidden">
-                      <div className={`strength-bar ${strength.class}`} />
-                    </div>
-                    <p className="text-[10px] text-zinc-500 leading-normal">
-                      Must contain at least 8 characters, with uppercase, lowercase, numbers, and special characters.
-                    </p>
-                  </div>
-                )}
+                {password && <PasswordStrengthBar strength={strength} />}
 
                 {state?.errors?.password && (
                   <div className="mt-1.5 text-xs text-red-400 space-y-1">
