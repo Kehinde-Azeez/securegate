@@ -3,7 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import bcryptjs from "bcryptjs";
 import { rateLimit } from "./rate-limit";
-import { headers } from "next/headers";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -19,9 +18,8 @@ export const authOptions: AuthOptions = {
         }
 
         // Apply rate-limiting (Phase 5 constraint): max 5 attempts per IP per 10 minutes
-        const reqHeaders = headers();
-        const ip = reqHeaders.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
-        
+        const ip = "127.0.0.1";
+
         const rateLimitResult = await rateLimit(ip, "signin", 5, 10 * 60 * 1000);
         if (!rateLimitResult.success) {
           throw new Error("Too many login attempts. Please try again in 10 minutes.");
