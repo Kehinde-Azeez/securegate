@@ -3,7 +3,6 @@ import NextAuth, { AuthOptions } from "next-auth";
 import { prisma } from "./prisma";
 import bcryptjs from "bcryptjs";
 import { rateLimit } from "./rate-limit";
-import { headers } from "next/headers";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -18,8 +17,8 @@ export const authOptions: AuthOptions = {
           throw new Error("Invalid credentials");
         }
         // Rate limiting
-        const reqHeaders = headers();
-        const ip = reqHeaders.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
+
+        const ip = "127.0.0.1";
         const limit = await rateLimit(ip, "signin", 5, 10 * 60 * 1000);
         if (!limit.success) {
           throw new Error("Too many login attempts. Please try again in 10 minutes.");
