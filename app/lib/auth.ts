@@ -18,6 +18,7 @@ export const authOptions: AuthOptions = {
           id: "1",
           name: "Test User",
           email: credentials.email,
+          emailVerified: false, // ✅ ADD THIS
         };
       },
     }),
