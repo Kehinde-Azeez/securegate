@@ -1,32 +1,9 @@
 export const runtime = "nodejs";
 
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import { authOptions } from "../../../../lib/auth";
 
-const handler = NextAuth({
-    providers: [
-        CredentialsProvider({
-            name: "credentials",
-            credentials: {
-                email: { label: "Email", type: "email" },
-                password: { label: "Password", type: "password" },
-            },
-            async authorize(credentials) {
-                if (!credentials?.email || !credentials?.password) {
-                    return null;
-                }
-
-                return {
-                    id: "1",
-                    name: "Test User",
-                    email: credentials.email,
-                    emailVerified: false,
-                };
-            },
-        }),
-    ],
-    session: { strategy: "jwt" },
-    secret: process.env.NEXTAUTH_SECRET,
-});
+// Create the handler using the shared auth options
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
