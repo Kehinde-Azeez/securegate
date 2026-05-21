@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 import React from "react";
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
@@ -7,7 +10,6 @@ import { redirect } from "next/navigation";
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
-  // If already authenticated and verified, redirect directly to dashboard
   if (session?.user && session.user.emailVerified) {
     redirect("/dashboard");
   }
