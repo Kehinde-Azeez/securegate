@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 import React from "react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../lib/auth";
@@ -7,7 +10,6 @@ import LogoutButton from "./logout-button";
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
 
-  // airtight redirect logic (Phase 2 & 3 verification protection)
   if (!session || !session.user) {
     redirect("/login");
   }
