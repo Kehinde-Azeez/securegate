@@ -1,9 +1,9 @@
 # SecureGate — Reflection & Engineering Analysis
 
-**Name:** SecureGate Candidate
+**Name:** kehinde azeez
 **Cohort:** Design to MVP Bootcamp
 **Live URL:** https://securegate-zeta.vercel.app
-**GitHub Repo:** https://github.com/candidate/securegate
+**GitHub Repo:** https://github.com/Kehinde-Azeez/securegate
 
 ---
 
