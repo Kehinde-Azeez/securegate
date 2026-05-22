@@ -2,7 +2,7 @@
 
 **Name:** SecureGate Candidate
 **Cohort:** Design to MVP Bootcamp
-**Live URL:** https://securegate-mvp.vercel.app
+**Live URL:** https://securegate-zeta.vercel.app
 **GitHub Repo:** https://github.com/candidate/securegate
 
 ---
